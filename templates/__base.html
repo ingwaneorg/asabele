@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<!-- templates/__base.html -->
+<html lang="en-US" dir="ltr">
+
+  <head>
+    <!-- Document Title-->
+    <title>{% block title %} | ticks{% endblock title %}</title>
+    <!-- END Document Title-->
+  </head>
+
+  <body>
+
+    <!-- Main Content-->
+    <div class="container">
+      {% block content %}
+      {% endblock content %}
+    </div>
+
+  </body>
+
+</html>
