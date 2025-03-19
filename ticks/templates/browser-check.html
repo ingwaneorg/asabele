@@ -1,0 +1,107 @@
+{% extends '__base.html' %}
+
+{% block title %}browser check{% endblock title %}</title>
+
+{% block content %}
+  <div class="main learner">
+    <div class="panel">
+      <div class="section">
+        <div class="row">
+          <h1>{{message}}</h1>
+        </div>
+        <div class="row-gap"></div>
+        <div class="row">
+          <input type="text" 
+                 placeholder="Input box" 
+                 autocomplete="off">
+        </div>
+      </div>
+      <div class="section-gap"></div>
+      <div class="section">
+        <div class="row">
+          <div class="status">
+            <status-symbol status="'tick'" />
+          </div>
+          <span class="col-gap"></span>
+          <div class="status">
+            <status-symbol status="'cross'" />
+          </div>
+          <span class="col-gap"></span>
+          <div class="status">        
+            <status-symbol status="'smile'" />
+          </div>
+          <span class="col-gap"></span>
+          <div class="status">        
+            <status-symbol status="'happy'" />
+          </div>
+          <span class="col-gap"></span>
+          <div class="status">        
+            <status-symbol status="'coffee'" />
+          </div>
+          <span class="col-gap"></span>
+          <div class="status">        
+            <status-symbol status="'away'" />
+          </div>
+          <span class="col-gap"></span>
+          <div class="status">
+            <status-symbol status="'hand-up'" />
+          </div>
+        </div>
+      </div>
+      <div class="section-gap"></div>
+      <div class="section">
+        <div class="row">
+          <button class="button">Button 1</button>
+          <span class="col-gap"></span>
+          <button class="button">Button 2</button>
+          <span class="col-gap"></span>
+          <button class="button">Btn 3</button>
+        </div>
+      </div>
+      <div class="section-gap"></div>
+        <div class="row">
+          <button class="button1">Button type 1</button>
+          <span class="col-gap"></span>
+          <button class="button2">Button type 2</button>
+        </div>
+      <div class="section">
+      <div class="section-gap"></div>
+      <div class="section">
+        <div class="row">
+          Here is some row text...
+        </div>
+        <div class="row1">
+          Here is some row1 text...
+        </div>
+        <div class="row2">
+          Here is some row2 text...
+        </div>
+        <div class="row3">
+          Here is some row3 text...
+        </div>
+      </div>
+      <div class="section-gap"></div>
+      <div class="section">
+        <table>
+          <thead></thead>
+          <tbody>
+            <tr>
+              <td>AAA</td>
+              <td class="status">BBB</td>
+            </tr>          
+            <tr>
+              <td>CCC</td>
+              <td class="status">DDD</td>
+            </tr>          
+          </tbody>
+          <tfoot>
+            <tr>
+              <td>EEE</td>
+              <td class="status">FFF</td>
+            </tr>          
+          </tfoot>
+        </table>
+      </div>
+  </div>
+  
+{% endblock content%}

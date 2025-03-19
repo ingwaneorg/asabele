@@ -1,0 +1,106 @@
+{% extends '__base.html' %}
+
+{% block title %}home{% endblock title %}</title>
+
+{% block content %}
+  <div class="main learner">
+    <div class="panel">
+      <div class="section">
+        <div class="row">
+          <h1>{{ room }}</h1>
+        </div>
+        <div class="row-gap"></div>
+        <div class="row">
+          <input type="text" 
+                 pattern="[A-Za-z0-9 .-]+" 
+                 title="Only letters, numbers, spaces, dots, and hyphens are allowed (max 20)"
+                 ng-model="learner.name" 
+                 placeholder="First name only" 
+                 maxlength="15" 
+                 autocomplete="off" 
+                 ng-change="nameChanged()">
+        </div>
+      </div>
+      <div class="section-gap"></div>
+      <div class="section">
+        <div class="row">
+          <div class="status">
+            <status-symbol status="learner.status" />
+          </div>
+        </div>
+        <div class="row-gap"></div>
+        <div class="row">
+          {{ learner.status }}
+        </div>
+      </div>
+      <div class="section-gap"></div>
+  
+      <div class="section">
+        <div class="row">
+        <input type="text" 
+               title="Enter your answer (maximum of 20 characters)"
+               maxlength="20"
+               autocomplete="off" 
+               ng-model="learner.answer" 
+               placeholder="Answer" 
+               ng-change="answerChanged()">
+        </div>
+      </div>
+  
+      <div class="section-gap"></div>
+      <div class="section">
+        <div class="row">
+          <button ng-click="send('tick')">
+            <status-symbol status="'tick'"></status-symbol><span>Tick</span>
+          </button>
+          <span class="col-gap"></span>
+          <button ng-click="send('cross')">
+            <status-symbol status="'cross'"></status-symbol><span>Cross</span>
+          </button>
+          <span class="col-gap"></span>
+          <button ng-click="send('happy')">
+            <status-symbol status="'happy'"></status-symbol><span>Happy</span>
+          </button>
+          <span class="col-gap"></span>
+          <button ng-click="send('hand-up')">
+            <status-symbol status="'hand-up'"></status-symbol><span>Hand</span>
+          </button>
+        </div>
+        <div class="row-gap"></div>
+        <div class="row">
+          <button ng-click="send('A')">A</button>
+          <span class="col-gap"></span>
+          <button ng-click="send('B')">B</button>
+          <span class="col-gap"></span>
+          <button ng-click="send('C')">C</button>
+          <span class="col-gap"></span>
+          <button ng-click="send('D')">D</button>
+          <span class="col-gap"></span>
+          <button ng-click="send('E')">E</button>
+        </div>
+        <div class="row-gap"></div>
+        <div class="row">
+          <button ng-click="send('smile')">
+            <status-symbol status="'smile'"></status-symbol><span>Smile</span>
+          </button>
+          <span class="col-gap"></span>
+          <button ng-click="send('coffee')">
+            <status-symbol status="'coffee'"></status-symbol><span>Break</span>
+          </button>
+          <span class="col-gap"></span>
+          <button ng-click="send('away')">
+            <status-symbol status="'away'"></status-symbol><span>Away</span>
+          </button>
+        </div>
+      </div>
+      <div class="section-gap"></div>
+
+      <div class="section">
+        <div class="row">
+          <button ng-click="send('')">Clear</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+{% endblock content%}

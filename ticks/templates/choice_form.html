@@ -1,0 +1,110 @@
+{% extends '__base.html' %}
+
+{% block title %}home{% endblock title %}</title>
+
+{% block content %}
+  <div class="main learner">
+    <div class="panel">
+      <div class="section">
+          <form method="post">
+          {% csrf_token %}
+          <div class="row">
+            <h1>Room 123{{ room_code }}</h1>
+          </div>
+          <div class="row-gap"></div>
+            <div class="row">
+            <input type="text" 
+                id="name" 
+                name="name" 
+                pattern="[A-Za-z0-9 .-]+" 
+                title="Only letters, numbers, spaces, dots, and hyphens are allowed (max 20)"
+                maxlength="15"
+                autocomplete="off" 
+                placeholder="First name only" 
+                value="{{ learner_name|default:'' }}">  <!-- This keeps the value -->
+            </div>
+          </div>
+          <div class="section-gap"></div>
+          <div class="section">
+            <div class="row">
+              <div class="status">
+                <i class="fas fa-check-circle"></i> <!-- must be a variable -->
+              </div>
+            </div>
+            <div class="row-gap"></div>
+            <div class="row">
+              {{ learner.message }}
+            </div>
+          </div>
+          <div class="section-gap"></div>
+          <div class="section">
+            <div class="row">
+              <input type="text" 
+                  id="answer" 
+                  name="answer" 
+                  title="Enter your answer (maximum of 20 characters)"
+                  maxlength="20"
+                  autocomplete="off" 
+                  placeholder="Enter your answer here"
+                  value="{{ submitted_text|default:'' }}">  <!-- This keeps the value -->
+            </div>
+          </div>
+    
+          <div class="section-gap"></div>
+          <div class="section">
+            <div class="row">
+              <button type="submit" name="choice" value="tick">
+                <i class="fas fa-check-circle"></i> Tick
+              </button>
+              <span class="col-gap"></span>
+              <button type="submit" name="choice" value="cross">
+                <i class="fas fa-times-circle"></i> Cross
+              </button>
+              <span class="col-gap"></span>
+              <button type="submit" name="choice" value="smile">
+                <i class="fas fa-smile"></i> Smile
+              </button>
+              <span class="col-gap"></span>
+              <button type="submit" name="choice" value="hand">
+                <i class="far fa-hand-paper"></i> Hand
+              </button>
+            </div>
+            <div class="row-gap"></div>
+            <div class="row">
+              <button type="submit" name="choice" value="A">A</button>
+              <span class="col-gap"></span>
+              <button type="submit" name="choice" value="B">B</button>
+              <span class="col-gap"></span>
+              <button type="submit" name="choice" value="C">C</button>
+              <span class="col-gap"></span>
+              <button type="submit" name="choice" value="D">D</button>
+              <span class="col-gap"></span>
+              <button type="submit" name="choice" value="E">E</button>
+            </div>
+            <div class="row-gap"></div>
+            <div class="row">
+              <button type="submit" name="choice" value="happy">
+                <i class="fas fa-grin-stars"></i><i class="fas fa-grin-stars"></i> Happy
+              </button>
+              <span class="col-gap"></span>
+              <button type="submit" name="choice" value="break">
+                <i class="fas fa-mug-hot"></i> Break
+              </button>
+              <span class="col-gap"></span>
+              <button type="submit" name="choice" value="away">
+                <i class="fas fa-clock"></i> Away
+              </button>
+            </div>
+          </div>
+          <div class="section-gap"></div>
+          <div class="section">
+            <div class="row">
+            <button ng-click="send('')">Clear</button>
+            </div>
+        </div>
+      </form>
+
+    </div>
+  </div>
+{% endblock content%}
+

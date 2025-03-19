@@ -1,11 +1,12 @@
+{% load static %}
 <!DOCTYPE html>
 <!-- templates/__base.html -->
 <html lang="en-US" dir="ltr">
 
   <head>
-    <!-- Document Title-->
     <title>{% block title %} | ticks{% endblock title %}</title>
-    <!-- END Document Title-->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <link href="{% static 'css/app.css' %}" rel="stylesheet" >
   </head>
 
   <body>
