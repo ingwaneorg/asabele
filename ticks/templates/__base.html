@@ -3,20 +3,22 @@
 <!-- templates/__base.html -->
 <html lang="en-US" dir="ltr">
 
-  <head>
-    <title>{% block title %} | ticks{% endblock title %}</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
-    <link href="{% static 'css/app.css' %}" rel="stylesheet" >
-  </head>
+<head>
+  <title>{% block title %} | ticks{% endblock title %}</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+  <link href="{% static 'css/app.css' %}" rel="stylesheet" >
+</head>
 
-  <body>
+<body>
 
-    <!-- Main Content-->
-    <div class="container">
-      {% block content %}
-      {% endblock content %}
-    </div>
+<!-- Main Content-->
+<div class="container">
+<!-- block content-->
+{% block content %}
+{% endblock content %}
+<!-- endblock content-->
+</div>
 
-  </body>
+</body>
 
 </html>
