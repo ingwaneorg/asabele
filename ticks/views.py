@@ -4,35 +4,33 @@ from .forms import LearnerStatusForm
 
 
 def learner_view(request, room_code):
-    print(f"learner_view: {room_code}")
     template_name = 'learner.html'
     form = LearnerStatusForm(request.POST or None)  # Keeps submitted data
 
-    if not form.is_valid():
-        print("Form errors:", form.errors)  # Print validation errors for debugging
-
     if request.method == "POST":
-        print(f"POST data: {request.POST}")  # Check what data is being submitted        
+        print(f"POST data: {request.POST}")  # Check what data is being submitted
+
+        if not form.is_valid():
+            print(form.errors)
+
         if form.is_valid():
-            print("-- form is valid")
             learner_id = form.cleaned_data['learner_id']
             first_name = form.cleaned_data['first_name']
-            room_code = form.cleaned_data['room_code'].lower()  # Enforce lowercase
-            status_value = form.cleaned_data['status']
-            submitted_text = form.cleaned_data['answer']
+            status = form.cleaned_data['status']
+            answer = form.cleaned_data['answer']
 
             # Update if learner_id exists, otherwise create a new record
             learner_status, created = LearnerStatus.objects.update_or_create(
                 learner_id=learner_id,
                 defaults={
                     'first_name': first_name, 
-                    'room_code': room_code, 
-                    'status': status_value, 
-                    'answer': submitted_text
+                    'room_code': room_code.lower(), 
+                    'status': status, 
+                    'answer1': answer
                 }
             )
 
-            print(f"Saved: {learner_status}, Created: {created}")  # Debugging output
+            print(f"\n\nSaved: {learner_status}, Created: {created}\n\n")  # Debugging output
 
             # Form stays filled with submitted data after refresh
             return render(request, template_name, {'form': form, 'success': "Status updated!"})
