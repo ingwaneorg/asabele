@@ -11,29 +11,29 @@ def learner_view(request, room_code):
         print(f"POST data: {request.POST}")  # Check what data is being submitted
 
         if not form.is_valid():
-            print(form.errors)
+            return render(request, template_name, {'form': form})
 
-        if form.is_valid():
-            learner_id = form.cleaned_data['learner_id']
-            first_name = form.cleaned_data['first_name']
-            status = form.cleaned_data['status']
-            answer = form.cleaned_data['answer']
+        # Form is valid so save the record
+        learner_id = form.cleaned_data['learner_id']
+        first_name = form.cleaned_data['first_name']
+        status = form.cleaned_data['status']
+        answer = form.cleaned_data['answer']
 
-            # Update if learner_id exists, otherwise create a new record
-            learner_status, created = LearnerStatus.objects.update_or_create(
-                learner_id=learner_id,
-                defaults={
-                    'first_name': first_name, 
-                    'room_code': room_code.lower(), 
-                    'status': status, 
-                    'answer1': answer
-                }
-            )
+        # Update if learner_id exists, otherwise create a new record
+        learner_status, created = LearnerStatus.objects.update_or_create(
+            learner_id=learner_id,
+            defaults={
+                'first_name': first_name, 
+                'room_code': room_code.lower(), 
+                'status': status, 
+                'answer1': answer
+            }
+        )
 
-            print(f"\n\nSaved: {learner_status}, Created: {created}\n\n")  # Debugging output
+        print(f"\n\nSaved: {learner_status}, Created: {created}\n\n")  # Debugging output
 
-            # Form stays filled with submitted data after refresh
-            return render(request, template_name, {'form': form, 'success': "Status updated!"})
+        # Form stays filled with submitted data after refresh
+        return render(request, template_name, {'form': form, 'success': "Status updated!"})
 
     return render(request, template_name, {'form': form})
 

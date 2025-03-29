@@ -25,20 +25,25 @@
             required
             autocomplete="off" 
             placeholder="First name only" 
-            value="{{ learner_name|default:'' }}"> 
-          <!-- end input -->
+            value="{{ form.first_name.value|default:'' }}"
+          > <!-- end of input -->
         </div>
-
         <div class="section-gap"></div>
         <div class="section">
           <div class="row">
             <div class="status">
-              <i class="fas fa-check-circle"></i> <!-- TODO must be a variable -->
+              <!-- Include the status icon template here -->
+              {% include '_status-symbol.html' with status=form.status.value %}
             </div>
           </div>
           <div class="row-gap"></div>
           <div class="row">
-            {{ learner.message }}
+            <!-- Display any form errors -->
+            {% if form.errors %}
+              <div class="failed">
+                {{ form.errors|striptags }}
+              </div>
+            {% endif %} 
           </div>
         </div>
         <div class="section-gap"></div>
@@ -51,10 +56,10 @@
                 maxlength="20"
                 autocomplete="off" 
                 placeholder="Enter your answer here"
-                value="{{ submitted_text|default:'' }}">  <!-- This keeps the value -->
+                value="{{ form.answer.value|default:'' }}"
+                > <!-- end of input -->
           </div>
         </div>
-  
         <div class="section-gap"></div>
         <div class="section">
           <div class="row">
