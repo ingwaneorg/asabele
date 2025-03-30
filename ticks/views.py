@@ -66,6 +66,17 @@ def learner_view(request, room_code):
     return render(request, template_name, context)
 
 
+def tutor_view(request, room_code):
+    template_name = 'tutor.html'
+    form = LearnerStatusForm(request.POST)
+
+    context = {
+        'form': form,
+        'room_code': room_code
+    }
+    return render(request, template_name, context)
+
+
 # Ticks Views
 def home_page(request):
     template_name = 'home.html'

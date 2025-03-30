@@ -2,7 +2,13 @@
 
 {% load static %}
 
-{% block title %}home{% endblock title %}
+{% block title %}
+  {% if not form.first_name.value %}
+    Learner - {{room_code}}
+  {% else %}
+    {{form.first_name.value}} - {{room_code}}
+  {% endif %}
+{% endblock title %}
 
 {% block content %}
 <div class="main learner">
