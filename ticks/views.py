@@ -2,10 +2,17 @@ import re
 
 from django.conf import settings
 from django.http import Http404
-
+from django.utils import timezone
+from datetime import timedelta
 from django.shortcuts import render
+
+from django.db.models import F
+
 from .models import LearnerStatus
 from .forms import LearnerStatusForm
+
+# Parameters
+last_seen = timezone.now()-timedelta(hours=4)
 
 
 def validate_room_code(room_code):
@@ -55,29 +62,75 @@ def learner_view(request, room_code):
 
         # if clear pressed keep name only
         if status == "clear":
-            print(f"\ncleared {first_name}\n")
             form = LearnerStatusForm(initial={'first_name': first_name})  # Reset form
-
 
     context = {
         'form': form,
-        'room_code': room_code
+        'room_code': room_code,
     }
     return render(request, template_name, context)
 
 
 def tutor_view(request, room_code):
     template_name = 'tutor.html'
-    form = LearnerStatusForm(request.POST)
+    room_code = validate_room_code(room_code)
+
+    # Get url for learners
+    url = request.build_absolute_uri('/')+room_code.lower()
+
+    # Get learner records from the database for this room
+    learners = LearnerStatus.objects.filter(
+        room_code=room_code,
+        timestamp__gte=last_seen
+        )
 
     context = {
-        'form': form,
-        'room_code': room_code
+        'learners': learners,
+        'room_code': room_code,
+        'url': url,
     }
     return render(request, template_name, context)
 
 
-# Ticks Views
+def poll_view(request, room_code):
+    template_name = 'poll.html'
+    room_code = validate_room_code(room_code)
+
+    # Get learner records from the database for this room
+    learner_count = LearnerStatus.objects.filter(
+        room_code=room_code,
+        timestamp__gte=last_seen
+        ).count()
+
+    # Query learners and group by status, counting each status
+    learners_by_status = LearnerStatus.objects.filter(
+        room_code=room_code,
+        timestamp__gte=last_seen
+        ).exclude(status='clear'
+        ).values('status'
+        ).annotate(names=F('first_name')
+        ).order_by('status')
+
+    # Group by status
+    status_counts = {}
+    for learner in learners_by_status:
+        if learner['status'] not in status_counts:
+            status_counts[learner['status']] = []
+        status_counts[learner['status']].append(learner['names']) # names comes from the annotation
+
+    # Get the maximum count of learners in any status
+    max_count = max(len(learners) for learners in status_counts.values())
+
+    context = {
+        'status_counts': status_counts,
+        'room_code': room_code,
+        'learner_count': learner_count,
+        'max_count': max_count,
+    }
+    return render(request, template_name, context)
+
+
+# Static Views
 def home_page(request):
     template_name = 'home.html'
     context = {

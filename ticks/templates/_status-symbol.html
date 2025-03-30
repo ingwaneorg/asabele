@@ -12,7 +12,8 @@
     <i class="fas fa-grin-stars"> </i><i class="fas fa-grin-stars"></i>
 {% elif status == 'hand' %}
   <i class="far fa-hand-paper"> </i>
-{% else %}
-  <b>{{ status|default:'&nbsp;' }}</b>
+{% elif status == 'clear' %}
+  {% else %}
+  <b> </b>
 {% endif %}
 &#8203; <!-- use this to force consistent line height -->
