@@ -19,7 +19,6 @@
           <input type="text" 
             id="name" 
             name="first_name" 
-            pattern="[A-Za-z0-9 .-]+" 
             title="Only letters, numbers, spaces, dots, and hyphens are allowed (max 20)"
             maxlength="15"
             required
@@ -28,24 +27,34 @@
             value="{{ form.first_name.value|default:'' }}"
           > <!-- end of input -->
         </div>
+
+        <!-- Display any form errors -->
+        {% if form.errors %}
+          <div class="section-gap"></div>
+          <div class="section">
+            <div class="row">
+              <div class="failed">
+                {% if not form.first_name.value %}
+                  Enter your first name. Max 15 characters
+                {% else %}
+                  {{ form.errors }}
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        {% endif %} 
+
         <div class="section-gap"></div>
         <div class="section">
           <div class="row">
             <div class="status">
-              <!-- Include the status icon template here -->
+              <!-- The status icon template shows the correct icon -->
               {% include '_status-symbol.html' with status=form.status.value %}
             </div>
           </div>
           <div class="row-gap"></div>
-          <div class="row">
-            <!-- Display any form errors -->
-            {% if form.errors %}
-              <div class="failed">
-                {{ form.errors|striptags }}
-              </div>
-            {% endif %} 
-          </div>
         </div>
+
         <div class="section-gap"></div>
         <div class="section">
           <div class="row">
@@ -60,6 +69,7 @@
                 > <!-- end of input -->
           </div>
         </div>
+
         <div class="section-gap"></div>
         <div class="section">
           <div class="row">
@@ -71,8 +81,8 @@
               <i class="fas fa-times-circle"></i> Cross
             </button>
             <span class="col-gap"></span>
-            <button type="submit" name="status" value="smile">
-              <i class="fas fa-smile"></i> Smile
+            <button type="submit" name="status" value="happy">
+              <i class="fas fa-grin-stars"></i><i class="fas fa-grin-stars"></i> Happy
             </button>
             <span class="col-gap"></span>
             <button type="submit" name="status" value="hand">
@@ -81,20 +91,30 @@
           </div>
           <div class="row-gap"></div>
           <div class="row">
-            <button type="submit" name="status" value="A">A</button>
+            <button type="submit" name="status" value="A">
+              <b>A</b>
+            </button>
             <span class="col-gap"></span>
-            <button type="submit" name="status" value="B">B</button>
+            <button type="submit" name="status" value="B">
+              <b>B</b>
+            </button>
             <span class="col-gap"></span>
-            <button type="submit" name="status" value="C">C</button>
+            <button type="submit" name="status" value="C">
+              <b>C</b>
+            </button>
             <span class="col-gap"></span>
-            <button type="submit" name="status" value="D">D</button>
+            <button type="submit" name="status" value="D">
+              <b>D</b>
+            </button>
             <span class="col-gap"></span>
-            <button type="submit" name="status" value="E">E</button>
+            <button type="submit" name="status" value="E">
+              <b>E</b>
+            </button>
           </div>
           <div class="row-gap"></div>
           <div class="row">
-            <button type="submit" name="status" value="happy">
-              <i class="fas fa-grin-stars"></i><i class="fas fa-grin-stars"></i> Happy
+            <button type="submit" name="status" value="smile">
+              <i class="fas fa-smile"></i> Smile
             </button>
             <span class="col-gap"></span>
             <button type="submit" name="status" value="break">
@@ -106,10 +126,11 @@
             </button>
           </div>
         </div>
+
         <div class="section-gap"></div>
         <div class="section">
           <div class="row">
-            <button ng-click="send('')">Clear</button>
+            <button type="submit" name="status" value="clear">Clear</button>
           </div>
         </div>
 

@@ -1,12 +1,30 @@
-from django.shortcuts import render, redirect
+import re
+
+from django.conf import settings
+from django.http import Http404
+
+from django.shortcuts import render
 from .models import LearnerStatus
 from .forms import LearnerStatusForm
 
 
+def validate_room_code(room_code):
+    """Ensures the room code is alphanumeric and converts it to uppercase."""
+    if not re.match(r'^[A-Za-z0-9]+$', room_code):  
+        raise Http404("Room can only consist of letters and numbers.")
+
+    if len(room_code) < 2 or len(room_code) > 10:  
+        raise Http404(f"Room length must be <= 10 [{len(room_code)}]")
+
+    return room_code.upper()  # Return the uppercase version
+
+
 def learner_view(request, room_code):
     template_name = 'learner.html'
-    form = LearnerStatusForm(request.POST or None)  # Keeps submitted data
+    form = LearnerStatusForm(request.POST)
 
+    # Make sure that the room code is valid
+    room_code = validate_room_code(room_code)
     if request.method == "POST":
         print(f"POST data: {request.POST}")  # Check what data is being submitted
 
@@ -19,23 +37,33 @@ def learner_view(request, room_code):
         status = form.cleaned_data['status']
         answer = form.cleaned_data['answer']
 
+        # for testing change learner_id so that can have multiple users in one browser
+        if settings.DEBUG:
+            learner_id = first_name+":"+learner_id
+            print(learner_id)
+
         # Update if learner_id exists, otherwise create a new record
         learner_status, created = LearnerStatus.objects.update_or_create(
             learner_id=learner_id,
             defaults={
                 'first_name': first_name, 
-                'room_code': room_code.lower(), 
+                'room_code': room_code, 
                 'status': status, 
-                'answer1': answer
+                'answer': answer
             }
         )
 
-        print(f"\n\nSaved: {learner_status}, Created: {created}\n\n")  # Debugging output
+        # if clear pressed keep name only
+        if status == "clear":
+            print(f"\ncleared {first_name}\n")
+            form = LearnerStatusForm(initial={'first_name': first_name})  # Reset form
 
-        # Form stays filled with submitted data after refresh
-        return render(request, template_name, {'form': form, 'success': "Status updated!"})
 
-    return render(request, template_name, {'form': form})
+    context = {
+        'form': form,
+        'room_code': room_code
+    }
+    return render(request, template_name, context)
 
 
 # Ticks Views
